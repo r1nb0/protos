@@ -19,11 +19,12 @@ service ProductService {
 message Product {
   string id = 1;
   string name = 2;
-  Category category = 3;
-  string imageURL = 4;
-  float price = 5;
-  google.protobuf.Timestamp createdTime = 6;
-  google.protobuf.Timestamp updatedTime = 7;
+  string description = 3;
+  Category category = 4;
+  string imageURL = 5;
+  float price = 6;
+  google.protobuf.Timestamp createdTime = 7;
+  google.protobuf.Timestamp updatedTime = 8;
 }
 
 message Category {
@@ -38,8 +39,9 @@ message CreateRequest {
 message ProductDTO {
   string name = 1;
   int64 categoryID = 2;
-  string imageURL = 3;
-  float price = 4;
+  string description = 3;
+  string imageURL = 4;
+  float price = 5;
 }
 
 message CreateResponse {
