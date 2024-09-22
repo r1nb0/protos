@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package product;
+
+option go_package = "r1nb0.product.v1;productv1";
+
+import "google/protobuf/timestamp.proto";
+
+
+service ProductService {
+  rpc CreateProduct (CreateRequest) returns (CreateResponse);
+  rpc UpdateProduct (UpdateRequest) returns (UpdateResponse);
+  rpc DeleteProduct (DeleteRequest) returns (DeleteResponse);
+  rpc GetAllProducts (GetAllRequest) returns (stream Product);
+  rpc GetProductByID (GetByIDRequest) returns (Product);
+  rpc GetProductsByCategory (GetByCategoryRequest) returns (stream Product);
+}
+
+message Product {
+  string id = 1;
+  string name = 2;
+  Category category = 3;
+  string imageURL = 4;
+  float price = 5;
+  google.protobuf.Timestamp createdTime = 6;
+  google.protobuf.Timestamp updatedTime = 7;
+}
+
+message Category {
+  string name = 2;
+  string imageURL = 3;
+}
+
+message CreateRequest {
+  ProductDTO product = 1;
+}
+
+message ProductDTO {
+  string name = 1;
+  int64 categoryID = 2;
+  string imageURL = 3;
+  float price = 4;
+}
+
+message CreateResponse {
+  string id = 1;
+}
+
+message UpdateRequest {
+  string id = 1;
+  ProductDTO product = 2;
+}
+
+message UpdateResponse {
+  bool success = 1;
+}
+
+message DeleteRequest {
+  string id = 1;
+}
+
+message DeleteResponse {
+  bool success = 1;
+}
+
+message GetByIDRequest {
+  string id = 1;
+}
+
+message GetAllRequest {}
+
+message GetByCategoryRequest {
+  string categoryName = 1;
+}
