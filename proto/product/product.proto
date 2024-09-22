@@ -38,7 +38,7 @@ message CreateRequest {
 
 message ProductDTO {
   string name = 1;
-  int64 categoryID = 2;
+  Category category = 2;
   string description = 3;
   string imageURL = 4;
   float price = 5;
