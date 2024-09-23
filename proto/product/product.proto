@@ -4,9 +4,6 @@ package product;
 
 option go_package = "r1nb0.product.v1;productv1";
 
-import "google/protobuf/timestamp.proto";
-
-
 service ProductService {
   rpc CreateProduct (CreateRequest) returns (CreateResponse);
   rpc UpdateProduct (UpdateRequest) returns (UpdateResponse);
@@ -14,6 +11,7 @@ service ProductService {
   rpc GetAllProducts (GetAllRequest) returns (stream Product);
   rpc GetProductByID (GetByIDRequest) returns (Product);
   rpc GetProductsByCategory (GetByCategoryRequest) returns (stream Product);
+  rpc GetAllCategories (GetAllCategoriesRequest) returns (stream Category);
 }
 
 message Product {
@@ -23,8 +21,6 @@ message Product {
   Category category = 4;
   string imageURL = 5;
   float price = 6;
-  google.protobuf.Timestamp createdTime = 7;
-  google.protobuf.Timestamp updatedTime = 8;
 }
 
 message Category {
@@ -33,10 +29,6 @@ message Category {
 }
 
 message CreateRequest {
-  ProductDTO product = 1;
-}
-
-message ProductDTO {
   string name = 1;
   Category category = 2;
   string description = 3;
@@ -50,7 +42,11 @@ message CreateResponse {
 
 message UpdateRequest {
   string id = 1;
-  ProductDTO product = 2;
+  string name = 2;
+  Category category = 3;
+  string description = 4;
+  string imageURL = 5;
+  float price = 6;
 }
 
 message UpdateResponse {
@@ -74,3 +70,5 @@ message GetAllRequest {}
 message GetByCategoryRequest {
   string categoryName = 1;
 }
+
+message GetAllCategoriesRequest {}
