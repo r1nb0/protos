@@ -26,6 +26,7 @@ const (
 	ProductService_GetProductByID_FullMethodName        = "/product.ProductService/GetProductByID"
 	ProductService_GetProductsByCategory_FullMethodName = "/product.ProductService/GetProductsByCategory"
 	ProductService_GetAllCategories_FullMethodName      = "/product.ProductService/GetAllCategories"
+	ProductService_GetBestProducts_FullMethodName       = "/product.ProductService/GetBestProducts"
 )
 
 // ProductServiceClient is the client API for ProductService service.
@@ -39,6 +40,7 @@ type ProductServiceClient interface {
 	GetProductByID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*Product, error)
 	GetProductsByCategory(ctx context.Context, in *GetByCategoryRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error)
 	GetAllCategories(ctx context.Context, in *GetAllCategoriesRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Category], error)
+	GetBestProducts(ctx context.Context, in *GetBestProductsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error)
 }
 
 type productServiceClient struct {
@@ -146,6 +148,25 @@ func (c *productServiceClient) GetAllCategories(ctx context.Context, in *GetAllC
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type ProductService_GetAllCategoriesClient = grpc.ServerStreamingClient[Category]
 
+func (c *productServiceClient) GetBestProducts(ctx context.Context, in *GetBestProductsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &ProductService_ServiceDesc.Streams[3], ProductService_GetBestProducts_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[GetBestProductsRequest, Product]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type ProductService_GetBestProductsClient = grpc.ServerStreamingClient[Product]
+
 // ProductServiceServer is the server API for ProductService service.
 // All implementations must embed UnimplementedProductServiceServer
 // for forward compatibility.
@@ -157,6 +178,7 @@ type ProductServiceServer interface {
 	GetProductByID(context.Context, *GetByIDRequest) (*Product, error)
 	GetProductsByCategory(*GetByCategoryRequest, grpc.ServerStreamingServer[Product]) error
 	GetAllCategories(*GetAllCategoriesRequest, grpc.ServerStreamingServer[Category]) error
+	GetBestProducts(*GetBestProductsRequest, grpc.ServerStreamingServer[Product]) error
 	mustEmbedUnimplementedProductServiceServer()
 }
 
@@ -187,6 +209,9 @@ func (UnimplementedProductServiceServer) GetProductsByCategory(*GetByCategoryReq
 }
 func (UnimplementedProductServiceServer) GetAllCategories(*GetAllCategoriesRequest, grpc.ServerStreamingServer[Category]) error {
 	return status.Errorf(codes.Unimplemented, "method GetAllCategories not implemented")
+}
+func (UnimplementedProductServiceServer) GetBestProducts(*GetBestProductsRequest, grpc.ServerStreamingServer[Product]) error {
+	return status.Errorf(codes.Unimplemented, "method GetBestProducts not implemented")
 }
 func (UnimplementedProductServiceServer) mustEmbedUnimplementedProductServiceServer() {}
 func (UnimplementedProductServiceServer) testEmbeddedByValue()                        {}
@@ -314,6 +339,17 @@ func _ProductService_GetAllCategories_Handler(srv interface{}, stream grpc.Serve
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type ProductService_GetAllCategoriesServer = grpc.ServerStreamingServer[Category]
 
+func _ProductService_GetBestProducts_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetBestProductsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ProductServiceServer).GetBestProducts(m, &grpc.GenericServerStream[GetBestProductsRequest, Product]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type ProductService_GetBestProductsServer = grpc.ServerStreamingServer[Product]
+
 // ProductService_ServiceDesc is the grpc.ServiceDesc for ProductService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -352,6 +388,11 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetAllCategories",
 			Handler:       _ProductService_GetAllCategories_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetBestProducts",
+			Handler:       _ProductService_GetBestProducts_Handler,
 			ServerStreams: true,
 		},
 	},

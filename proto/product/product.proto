@@ -12,6 +12,7 @@ service ProductService {
   rpc GetProductByID (GetByIDRequest) returns (Product);
   rpc GetProductsByCategory (GetByCategoryRequest) returns (stream Product);
   rpc GetAllCategories (GetAllCategoriesRequest) returns (stream Category);
+  rpc GetBestProducts (GetBestProductsRequest) returns (stream Product);
 }
 
 message Product {
@@ -21,6 +22,7 @@ message Product {
   Category category = 4;
   string imageURL = 5;
   float price = 6;
+  bool isBestProduct = 7;
 }
 
 message Category {
@@ -40,6 +42,8 @@ message CreateResponse {
   string id = 1;
 }
 
+message GetBestProductsRequest {}
+
 message UpdateRequest {
   string id = 1;
   string name = 2;
@@ -47,6 +51,7 @@ message UpdateRequest {
   string description = 4;
   string imageURL = 5;
   float price = 6;
+  bool isBestProduct = 7;
 }
 
 message UpdateResponse {
