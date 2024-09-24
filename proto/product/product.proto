@@ -36,6 +36,7 @@ message CreateRequest {
   string description = 3;
   string imageURL = 4;
   float price = 5;
+  bool isBestProduct = 7;
 }
 
 message CreateResponse {
