@@ -6,7 +6,7 @@ option go_package = "r1nb0.category.v1;categoryv1";
 
 service CategoryService {
   rpc Create (CreateRequest) returns (CreateResponse);
-  rpc Update (UpdateRequest) returns (UpdateResponse);
+  rpc Update (Category) returns (UpdateResponse);
   rpc Delete (DeleteRequest) returns (DeleteResponse);
   rpc GetAll (GetAllRequest) returns (stream Category);
   rpc GetByID (GetByIDRequest) returns (Category);
@@ -25,11 +25,6 @@ message CreateRequest {
 
 message CreateResponse {
   int64 id = 1;
-}
-
-message UpdateRequest {
-  string name = 1;
-  string imageURL = 2;
 }
 
 message UpdateResponse {
