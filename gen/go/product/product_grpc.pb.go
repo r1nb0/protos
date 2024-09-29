@@ -19,28 +19,26 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ProductService_CreateProduct_FullMethodName         = "/product.ProductService/CreateProduct"
-	ProductService_UpdateProduct_FullMethodName         = "/product.ProductService/UpdateProduct"
-	ProductService_DeleteProduct_FullMethodName         = "/product.ProductService/DeleteProduct"
-	ProductService_GetAllProducts_FullMethodName        = "/product.ProductService/GetAllProducts"
-	ProductService_GetProductByID_FullMethodName        = "/product.ProductService/GetProductByID"
-	ProductService_GetProductsByCategory_FullMethodName = "/product.ProductService/GetProductsByCategory"
-	ProductService_GetAllCategories_FullMethodName      = "/product.ProductService/GetAllCategories"
-	ProductService_GetBestProducts_FullMethodName       = "/product.ProductService/GetBestProducts"
+	ProductService_Create_FullMethodName        = "/product.ProductService/Create"
+	ProductService_Update_FullMethodName        = "/product.ProductService/Update"
+	ProductService_Delete_FullMethodName        = "/product.ProductService/Delete"
+	ProductService_GetAll_FullMethodName        = "/product.ProductService/GetAll"
+	ProductService_GetByID_FullMethodName       = "/product.ProductService/GetByID"
+	ProductService_GetByCategory_FullMethodName = "/product.ProductService/GetByCategory"
+	ProductService_GetDailyRecs_FullMethodName  = "/product.ProductService/GetDailyRecs"
 )
 
 // ProductServiceClient is the client API for ProductService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProductServiceClient interface {
-	CreateProduct(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
-	UpdateProduct(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
-	DeleteProduct(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
-	GetAllProducts(ctx context.Context, in *GetAllRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error)
-	GetProductByID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*Product, error)
-	GetProductsByCategory(ctx context.Context, in *GetByCategoryRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error)
-	GetAllCategories(ctx context.Context, in *GetAllCategoriesRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Category], error)
-	GetBestProducts(ctx context.Context, in *GetBestProductsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error)
+	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
+	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
+	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	GetAll(ctx context.Context, in *GetAllRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error)
+	GetByID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*Product, error)
+	GetByCategory(ctx context.Context, in *GetByCategoryRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error)
+	GetDailyRecs(ctx context.Context, in *GetDailyRecsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error)
 }
 
 type productServiceClient struct {
@@ -51,39 +49,39 @@ func NewProductServiceClient(cc grpc.ClientConnInterface) ProductServiceClient {
 	return &productServiceClient{cc}
 }
 
-func (c *productServiceClient) CreateProduct(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
+func (c *productServiceClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateResponse)
-	err := c.cc.Invoke(ctx, ProductService_CreateProduct_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, ProductService_Create_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *productServiceClient) UpdateProduct(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error) {
+func (c *productServiceClient) Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateResponse)
-	err := c.cc.Invoke(ctx, ProductService_UpdateProduct_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, ProductService_Update_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *productServiceClient) DeleteProduct(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+func (c *productServiceClient) Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteResponse)
-	err := c.cc.Invoke(ctx, ProductService_DeleteProduct_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, ProductService_Delete_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *productServiceClient) GetAllProducts(ctx context.Context, in *GetAllRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error) {
+func (c *productServiceClient) GetAll(ctx context.Context, in *GetAllRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &ProductService_ServiceDesc.Streams[0], ProductService_GetAllProducts_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &ProductService_ServiceDesc.Streams[0], ProductService_GetAll_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -98,21 +96,21 @@ func (c *productServiceClient) GetAllProducts(ctx context.Context, in *GetAllReq
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type ProductService_GetAllProductsClient = grpc.ServerStreamingClient[Product]
+type ProductService_GetAllClient = grpc.ServerStreamingClient[Product]
 
-func (c *productServiceClient) GetProductByID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*Product, error) {
+func (c *productServiceClient) GetByID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*Product, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Product)
-	err := c.cc.Invoke(ctx, ProductService_GetProductByID_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, ProductService_GetByID_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *productServiceClient) GetProductsByCategory(ctx context.Context, in *GetByCategoryRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error) {
+func (c *productServiceClient) GetByCategory(ctx context.Context, in *GetByCategoryRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &ProductService_ServiceDesc.Streams[1], ProductService_GetProductsByCategory_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &ProductService_ServiceDesc.Streams[1], ProductService_GetByCategory_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -127,15 +125,15 @@ func (c *productServiceClient) GetProductsByCategory(ctx context.Context, in *Ge
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type ProductService_GetProductsByCategoryClient = grpc.ServerStreamingClient[Product]
+type ProductService_GetByCategoryClient = grpc.ServerStreamingClient[Product]
 
-func (c *productServiceClient) GetAllCategories(ctx context.Context, in *GetAllCategoriesRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Category], error) {
+func (c *productServiceClient) GetDailyRecs(ctx context.Context, in *GetDailyRecsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &ProductService_ServiceDesc.Streams[2], ProductService_GetAllCategories_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &ProductService_ServiceDesc.Streams[2], ProductService_GetDailyRecs_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &grpc.GenericClientStream[GetAllCategoriesRequest, Category]{ClientStream: stream}
+	x := &grpc.GenericClientStream[GetDailyRecsRequest, Product]{ClientStream: stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -146,39 +144,19 @@ func (c *productServiceClient) GetAllCategories(ctx context.Context, in *GetAllC
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type ProductService_GetAllCategoriesClient = grpc.ServerStreamingClient[Category]
-
-func (c *productServiceClient) GetBestProducts(ctx context.Context, in *GetBestProductsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &ProductService_ServiceDesc.Streams[3], ProductService_GetBestProducts_FullMethodName, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &grpc.GenericClientStream[GetBestProductsRequest, Product]{ClientStream: stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type ProductService_GetBestProductsClient = grpc.ServerStreamingClient[Product]
+type ProductService_GetDailyRecsClient = grpc.ServerStreamingClient[Product]
 
 // ProductServiceServer is the server API for ProductService service.
 // All implementations must embed UnimplementedProductServiceServer
 // for forward compatibility.
 type ProductServiceServer interface {
-	CreateProduct(context.Context, *CreateRequest) (*CreateResponse, error)
-	UpdateProduct(context.Context, *UpdateRequest) (*UpdateResponse, error)
-	DeleteProduct(context.Context, *DeleteRequest) (*DeleteResponse, error)
-	GetAllProducts(*GetAllRequest, grpc.ServerStreamingServer[Product]) error
-	GetProductByID(context.Context, *GetByIDRequest) (*Product, error)
-	GetProductsByCategory(*GetByCategoryRequest, grpc.ServerStreamingServer[Product]) error
-	GetAllCategories(*GetAllCategoriesRequest, grpc.ServerStreamingServer[Category]) error
-	GetBestProducts(*GetBestProductsRequest, grpc.ServerStreamingServer[Product]) error
+	Create(context.Context, *CreateRequest) (*CreateResponse, error)
+	Update(context.Context, *UpdateRequest) (*UpdateResponse, error)
+	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
+	GetAll(*GetAllRequest, grpc.ServerStreamingServer[Product]) error
+	GetByID(context.Context, *GetByIDRequest) (*Product, error)
+	GetByCategory(*GetByCategoryRequest, grpc.ServerStreamingServer[Product]) error
+	GetDailyRecs(*GetDailyRecsRequest, grpc.ServerStreamingServer[Product]) error
 	mustEmbedUnimplementedProductServiceServer()
 }
 
@@ -189,29 +167,26 @@ type ProductServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedProductServiceServer struct{}
 
-func (UnimplementedProductServiceServer) CreateProduct(context.Context, *CreateRequest) (*CreateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateProduct not implemented")
+func (UnimplementedProductServiceServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedProductServiceServer) UpdateProduct(context.Context, *UpdateRequest) (*UpdateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateProduct not implemented")
+func (UnimplementedProductServiceServer) Update(context.Context, *UpdateRequest) (*UpdateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedProductServiceServer) DeleteProduct(context.Context, *DeleteRequest) (*DeleteResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteProduct not implemented")
+func (UnimplementedProductServiceServer) Delete(context.Context, *DeleteRequest) (*DeleteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
-func (UnimplementedProductServiceServer) GetAllProducts(*GetAllRequest, grpc.ServerStreamingServer[Product]) error {
-	return status.Errorf(codes.Unimplemented, "method GetAllProducts not implemented")
+func (UnimplementedProductServiceServer) GetAll(*GetAllRequest, grpc.ServerStreamingServer[Product]) error {
+	return status.Errorf(codes.Unimplemented, "method GetAll not implemented")
 }
-func (UnimplementedProductServiceServer) GetProductByID(context.Context, *GetByIDRequest) (*Product, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetProductByID not implemented")
+func (UnimplementedProductServiceServer) GetByID(context.Context, *GetByIDRequest) (*Product, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetByID not implemented")
 }
-func (UnimplementedProductServiceServer) GetProductsByCategory(*GetByCategoryRequest, grpc.ServerStreamingServer[Product]) error {
-	return status.Errorf(codes.Unimplemented, "method GetProductsByCategory not implemented")
+func (UnimplementedProductServiceServer) GetByCategory(*GetByCategoryRequest, grpc.ServerStreamingServer[Product]) error {
+	return status.Errorf(codes.Unimplemented, "method GetByCategory not implemented")
 }
-func (UnimplementedProductServiceServer) GetAllCategories(*GetAllCategoriesRequest, grpc.ServerStreamingServer[Category]) error {
-	return status.Errorf(codes.Unimplemented, "method GetAllCategories not implemented")
-}
-func (UnimplementedProductServiceServer) GetBestProducts(*GetBestProductsRequest, grpc.ServerStreamingServer[Product]) error {
-	return status.Errorf(codes.Unimplemented, "method GetBestProducts not implemented")
+func (UnimplementedProductServiceServer) GetDailyRecs(*GetDailyRecsRequest, grpc.ServerStreamingServer[Product]) error {
+	return status.Errorf(codes.Unimplemented, "method GetDailyRecs not implemented")
 }
 func (UnimplementedProductServiceServer) mustEmbedUnimplementedProductServiceServer() {}
 func (UnimplementedProductServiceServer) testEmbeddedByValue()                        {}
@@ -234,121 +209,110 @@ func RegisterProductServiceServer(s grpc.ServiceRegistrar, srv ProductServiceSer
 	s.RegisterService(&ProductService_ServiceDesc, srv)
 }
 
-func _ProductService_CreateProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ProductService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProductServiceServer).CreateProduct(ctx, in)
+		return srv.(ProductServiceServer).Create(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ProductService_CreateProduct_FullMethodName,
+		FullMethod: ProductService_Create_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).CreateProduct(ctx, req.(*CreateRequest))
+		return srv.(ProductServiceServer).Create(ctx, req.(*CreateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProductService_UpdateProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ProductService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProductServiceServer).UpdateProduct(ctx, in)
+		return srv.(ProductServiceServer).Update(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ProductService_UpdateProduct_FullMethodName,
+		FullMethod: ProductService_Update_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).UpdateProduct(ctx, req.(*UpdateRequest))
+		return srv.(ProductServiceServer).Update(ctx, req.(*UpdateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProductService_DeleteProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ProductService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProductServiceServer).DeleteProduct(ctx, in)
+		return srv.(ProductServiceServer).Delete(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ProductService_DeleteProduct_FullMethodName,
+		FullMethod: ProductService_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).DeleteProduct(ctx, req.(*DeleteRequest))
+		return srv.(ProductServiceServer).Delete(ctx, req.(*DeleteRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProductService_GetAllProducts_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _ProductService_GetAll_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(GetAllRequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(ProductServiceServer).GetAllProducts(m, &grpc.GenericServerStream[GetAllRequest, Product]{ServerStream: stream})
+	return srv.(ProductServiceServer).GetAll(m, &grpc.GenericServerStream[GetAllRequest, Product]{ServerStream: stream})
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type ProductService_GetAllProductsServer = grpc.ServerStreamingServer[Product]
+type ProductService_GetAllServer = grpc.ServerStreamingServer[Product]
 
-func _ProductService_GetProductByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ProductService_GetByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetByIDRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProductServiceServer).GetProductByID(ctx, in)
+		return srv.(ProductServiceServer).GetByID(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ProductService_GetProductByID_FullMethodName,
+		FullMethod: ProductService_GetByID_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetProductByID(ctx, req.(*GetByIDRequest))
+		return srv.(ProductServiceServer).GetByID(ctx, req.(*GetByIDRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProductService_GetProductsByCategory_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _ProductService_GetByCategory_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(GetByCategoryRequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(ProductServiceServer).GetProductsByCategory(m, &grpc.GenericServerStream[GetByCategoryRequest, Product]{ServerStream: stream})
+	return srv.(ProductServiceServer).GetByCategory(m, &grpc.GenericServerStream[GetByCategoryRequest, Product]{ServerStream: stream})
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type ProductService_GetProductsByCategoryServer = grpc.ServerStreamingServer[Product]
+type ProductService_GetByCategoryServer = grpc.ServerStreamingServer[Product]
 
-func _ProductService_GetAllCategories_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(GetAllCategoriesRequest)
+func _ProductService_GetDailyRecs_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetDailyRecsRequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(ProductServiceServer).GetAllCategories(m, &grpc.GenericServerStream[GetAllCategoriesRequest, Category]{ServerStream: stream})
+	return srv.(ProductServiceServer).GetDailyRecs(m, &grpc.GenericServerStream[GetDailyRecsRequest, Product]{ServerStream: stream})
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type ProductService_GetAllCategoriesServer = grpc.ServerStreamingServer[Category]
-
-func _ProductService_GetBestProducts_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(GetBestProductsRequest)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(ProductServiceServer).GetBestProducts(m, &grpc.GenericServerStream[GetBestProductsRequest, Product]{ServerStream: stream})
-}
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type ProductService_GetBestProductsServer = grpc.ServerStreamingServer[Product]
+type ProductService_GetDailyRecsServer = grpc.ServerStreamingServer[Product]
 
 // ProductService_ServiceDesc is the grpc.ServiceDesc for ProductService service.
 // It's only intended for direct use with grpc.RegisterService,
@@ -358,41 +322,36 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ProductServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateProduct",
-			Handler:    _ProductService_CreateProduct_Handler,
+			MethodName: "Create",
+			Handler:    _ProductService_Create_Handler,
 		},
 		{
-			MethodName: "UpdateProduct",
-			Handler:    _ProductService_UpdateProduct_Handler,
+			MethodName: "Update",
+			Handler:    _ProductService_Update_Handler,
 		},
 		{
-			MethodName: "DeleteProduct",
-			Handler:    _ProductService_DeleteProduct_Handler,
+			MethodName: "Delete",
+			Handler:    _ProductService_Delete_Handler,
 		},
 		{
-			MethodName: "GetProductByID",
-			Handler:    _ProductService_GetProductByID_Handler,
+			MethodName: "GetByID",
+			Handler:    _ProductService_GetByID_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "GetAllProducts",
-			Handler:       _ProductService_GetAllProducts_Handler,
+			StreamName:    "GetAll",
+			Handler:       _ProductService_GetAll_Handler,
 			ServerStreams: true,
 		},
 		{
-			StreamName:    "GetProductsByCategory",
-			Handler:       _ProductService_GetProductsByCategory_Handler,
+			StreamName:    "GetByCategory",
+			Handler:       _ProductService_GetByCategory_Handler,
 			ServerStreams: true,
 		},
 		{
-			StreamName:    "GetAllCategories",
-			Handler:       _ProductService_GetAllCategories_Handler,
-			ServerStreams: true,
-		},
-		{
-			StreamName:    "GetBestProducts",
-			Handler:       _ProductService_GetBestProducts_Handler,
+			StreamName:    "GetDailyRecs",
+			Handler:       _ProductService_GetDailyRecs_Handler,
 			ServerStreams: true,
 		},
 	},

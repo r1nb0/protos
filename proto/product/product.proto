@@ -5,54 +5,45 @@ package product;
 option go_package = "r1nb0.product.v1;productv1";
 
 service ProductService {
-  rpc CreateProduct (CreateRequest) returns (CreateResponse);
-  rpc UpdateProduct (UpdateRequest) returns (UpdateResponse);
-  rpc DeleteProduct (DeleteRequest) returns (DeleteResponse);
-  rpc GetAllProducts (GetAllRequest) returns (stream Product);
-  rpc GetProductByID (GetByIDRequest) returns (Product);
-  rpc GetProductsByCategory (GetByCategoryRequest) returns (stream Product);
-  rpc GetAllCategories (GetAllCategoriesRequest) returns (stream Category);
-  rpc GetBestProducts (GetBestProductsRequest) returns (stream Product);
+  rpc Create (CreateRequest) returns (CreateResponse);
+  rpc Update (UpdateRequest) returns (UpdateResponse);
+  rpc Delete (DeleteRequest) returns (DeleteResponse);
+  rpc GetAll (GetAllRequest) returns (stream Product);
+  rpc GetByID (GetByIDRequest) returns (Product);
+  rpc GetByCategory (GetByCategoryRequest) returns (stream Product);
+  rpc GetDailyRecs (GetDailyRecsRequest) returns (stream Product);
 }
 
 message Product {
-  string id = 1;
+  int64 id = 1;
   string name = 2;
   string description = 3;
-  Category category = 4;
-  string imageURL = 5;
+  int64 category_id = 4;
+  string image_url = 5;
   float price = 6;
-  bool isBestProduct = 7;
-}
-
-message Category {
-  string name = 2;
-  string imageURL = 3;
+  bool is_daily_rec = 7;
 }
 
 message CreateRequest {
   string name = 1;
-  Category category = 2;
-  string description = 3;
-  string imageURL = 4;
+  string description = 2;
+  int64 category_id = 3;
+  string image_url = 4;
   float price = 5;
-  bool isBestProduct = 7;
+  bool is_daily_rec = 6;
 }
 
 message CreateResponse {
-  string id = 1;
+  int64 id = 1;
 }
 
-message GetBestProductsRequest {}
-
 message UpdateRequest {
-  string id = 1;
-  string name = 2;
-  Category category = 3;
-  string description = 4;
-  string imageURL = 5;
-  float price = 6;
-  bool isBestProduct = 7;
+  string name = 1;
+  string description = 2;
+  int64 category_id = 3;
+  string image_url = 4;
+  float price = 5;
+  bool is_daily_rec = 6;
 }
 
 message UpdateResponse {
@@ -60,21 +51,21 @@ message UpdateResponse {
 }
 
 message DeleteRequest {
-  string id = 1;
+  int64 id = 1;
 }
 
 message DeleteResponse {
   bool success = 1;
 }
 
-message GetByIDRequest {
-  string id = 1;
-}
+message GetAllRequest { }
 
-message GetAllRequest {}
+message GetByIDRequest {
+  int64 id = 1;
+}
 
 message GetByCategoryRequest {
-  string categoryName = 1;
+  int64 category_id = 1;
 }
 
-message GetAllCategoriesRequest {}
+message GetDailyRecsRequest {}
