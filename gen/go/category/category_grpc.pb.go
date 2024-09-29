@@ -31,7 +31,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CategoryServiceClient interface {
 	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
-	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
+	Update(ctx context.Context, in *Category, opts ...grpc.CallOption) (*UpdateResponse, error)
 	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
 	GetAll(ctx context.Context, in *GetAllRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Category], error)
 	GetByID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*Category, error)
@@ -55,7 +55,7 @@ func (c *categoryServiceClient) Create(ctx context.Context, in *CreateRequest, o
 	return out, nil
 }
 
-func (c *categoryServiceClient) Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error) {
+func (c *categoryServiceClient) Update(ctx context.Context, in *Category, opts ...grpc.CallOption) (*UpdateResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateResponse)
 	err := c.cc.Invoke(ctx, CategoryService_Update_FullMethodName, in, out, cOpts...)
@@ -109,7 +109,7 @@ func (c *categoryServiceClient) GetByID(ctx context.Context, in *GetByIDRequest,
 // for forward compatibility.
 type CategoryServiceServer interface {
 	Create(context.Context, *CreateRequest) (*CreateResponse, error)
-	Update(context.Context, *UpdateRequest) (*UpdateResponse, error)
+	Update(context.Context, *Category) (*UpdateResponse, error)
 	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
 	GetAll(*GetAllRequest, grpc.ServerStreamingServer[Category]) error
 	GetByID(context.Context, *GetByIDRequest) (*Category, error)
@@ -126,7 +126,7 @@ type UnimplementedCategoryServiceServer struct{}
 func (UnimplementedCategoryServiceServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedCategoryServiceServer) Update(context.Context, *UpdateRequest) (*UpdateResponse, error) {
+func (UnimplementedCategoryServiceServer) Update(context.Context, *Category) (*UpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
 func (UnimplementedCategoryServiceServer) Delete(context.Context, *DeleteRequest) (*DeleteResponse, error) {
@@ -178,7 +178,7 @@ func _CategoryService_Create_Handler(srv interface{}, ctx context.Context, dec f
 }
 
 func _CategoryService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateRequest)
+	in := new(Category)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -190,7 +190,7 @@ func _CategoryService_Update_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: CategoryService_Update_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CategoryServiceServer).Update(ctx, req.(*UpdateRequest))
+		return srv.(CategoryServiceServer).Update(ctx, req.(*Category))
 	}
 	return interceptor(ctx, in, info, handler)
 }
