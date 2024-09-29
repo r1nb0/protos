@@ -6,7 +6,7 @@ option go_package = "r1nb0.product.v1;productv1";
 
 service ProductService {
   rpc Create (CreateRequest) returns (CreateResponse);
-  rpc Update (UpdateRequest) returns (UpdateResponse);
+  rpc Update (Product) returns (UpdateResponse);
   rpc Delete (DeleteRequest) returns (DeleteResponse);
   rpc GetAll (GetAllRequest) returns (stream Product);
   rpc GetByID (GetByIDRequest) returns (Product);
@@ -35,15 +35,6 @@ message CreateRequest {
 
 message CreateResponse {
   int64 id = 1;
-}
-
-message UpdateRequest {
-  string name = 1;
-  string description = 2;
-  int64 category_id = 3;
-  string image_url = 4;
-  float price = 5;
-  bool is_daily_rec = 6;
 }
 
 message UpdateResponse {

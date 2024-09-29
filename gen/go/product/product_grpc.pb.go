@@ -33,7 +33,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProductServiceClient interface {
 	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
-	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
+	Update(ctx context.Context, in *Product, opts ...grpc.CallOption) (*UpdateResponse, error)
 	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
 	GetAll(ctx context.Context, in *GetAllRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error)
 	GetByID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*Product, error)
@@ -59,7 +59,7 @@ func (c *productServiceClient) Create(ctx context.Context, in *CreateRequest, op
 	return out, nil
 }
 
-func (c *productServiceClient) Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error) {
+func (c *productServiceClient) Update(ctx context.Context, in *Product, opts ...grpc.CallOption) (*UpdateResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateResponse)
 	err := c.cc.Invoke(ctx, ProductService_Update_FullMethodName, in, out, cOpts...)
@@ -151,7 +151,7 @@ type ProductService_GetDailyRecsClient = grpc.ServerStreamingClient[Product]
 // for forward compatibility.
 type ProductServiceServer interface {
 	Create(context.Context, *CreateRequest) (*CreateResponse, error)
-	Update(context.Context, *UpdateRequest) (*UpdateResponse, error)
+	Update(context.Context, *Product) (*UpdateResponse, error)
 	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
 	GetAll(*GetAllRequest, grpc.ServerStreamingServer[Product]) error
 	GetByID(context.Context, *GetByIDRequest) (*Product, error)
@@ -170,7 +170,7 @@ type UnimplementedProductServiceServer struct{}
 func (UnimplementedProductServiceServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedProductServiceServer) Update(context.Context, *UpdateRequest) (*UpdateResponse, error) {
+func (UnimplementedProductServiceServer) Update(context.Context, *Product) (*UpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
 func (UnimplementedProductServiceServer) Delete(context.Context, *DeleteRequest) (*DeleteResponse, error) {
@@ -228,7 +228,7 @@ func _ProductService_Create_Handler(srv interface{}, ctx context.Context, dec fu
 }
 
 func _ProductService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateRequest)
+	in := new(Product)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -240,7 +240,7 @@ func _ProductService_Update_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: ProductService_Update_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).Update(ctx, req.(*UpdateRequest))
+		return srv.(ProductServiceServer).Update(ctx, req.(*Product))
 	}
 	return interceptor(ctx, in, info, handler)
 }
