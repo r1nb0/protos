@@ -15,12 +15,12 @@ service CategoryService {
 message Category {
   int64 id = 1;
   string name = 2;
-  string imageURL = 3;
+  string image_url = 3;
 }
 
 message CreateRequest {
   string name = 1;
-  string imageURL = 2;
+  string image_url = 2;
 }
 
 message CreateResponse {
