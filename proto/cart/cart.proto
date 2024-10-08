@@ -4,7 +4,7 @@ package cart;
 
 option go_package = "r1nb0.cart.v1;cartv1";
 
-import "product/product.proto";
+import "product/v1/product.proto";
 
 service CartService {
   rpc Create (CreateRequest) returns (CreateResponse);
