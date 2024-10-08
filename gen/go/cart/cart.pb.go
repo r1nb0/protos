@@ -7,9 +7,9 @@
 package cartv1
 
 import (
+	product "github.com/r1nb0/protos/proto/product"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	r1nb0_product_v1 "r1nb0.product.v1"
 	reflect "reflect"
 	sync "sync"
 )
@@ -26,8 +26,8 @@ type Item struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Product *r1nb0_product_v1.Product `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
-	Count   int64                     `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	Product *product.Product `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
+	Count   int64            `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
 }
 
 func (x *Item) Reset() {
@@ -62,7 +62,7 @@ func (*Item) Descriptor() ([]byte, []int) {
 	return file_cart_cart_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Item) GetProduct() *r1nb0_product_v1.Product {
+func (x *Item) GetProduct() *product.Product {
 	if x != nil {
 		return x.Product
 	}
@@ -825,9 +825,10 @@ var file_cart_cart_proto_rawDesc = []byte{
 	0x17, 0x2e, 0x63, 0x61, 0x72, 0x74, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x49, 0x74, 0x65,
 	0x6d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x18, 0x2e, 0x63, 0x61, 0x72, 0x74, 0x2e,
 	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x49, 0x74, 0x65, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x42, 0x16, 0x5a, 0x14, 0x72, 0x31, 0x6e, 0x62, 0x30, 0x2e, 0x63, 0x61, 0x72, 0x74,
-	0x2e, 0x76, 0x31, 0x3b, 0x63, 0x61, 0x72, 0x74, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x73, 0x65, 0x42, 0x2b, 0x5a, 0x29, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
+	0x2f, 0x72, 0x31, 0x6e, 0x62, 0x30, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x73, 0x2f, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x2f, 0x63, 0x61, 0x72, 0x74, 0x3b, 0x63, 0x61, 0x72, 0x74, 0x76, 0x31, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -844,21 +845,21 @@ func file_cart_cart_proto_rawDescGZIP() []byte {
 
 var file_cart_cart_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_cart_cart_proto_goTypes = []any{
-	(*Item)(nil),                     // 0: cart.Item
-	(*Cart)(nil),                     // 1: cart.Cart
-	(*GetAllRequest)(nil),            // 2: cart.GetAllRequest
-	(*GetByIDRequest)(nil),           // 3: cart.GetByIDRequest
-	(*CreateRequest)(nil),            // 4: cart.CreateRequest
-	(*CreateResponse)(nil),           // 5: cart.CreateResponse
-	(*DeleteRequest)(nil),            // 6: cart.DeleteRequest
-	(*DeleteResponse)(nil),           // 7: cart.DeleteResponse
-	(*AddItemRequest)(nil),           // 8: cart.AddItemRequest
-	(*AddItemResponse)(nil),          // 9: cart.AddItemResponse
-	(*UpdateItemRequest)(nil),        // 10: cart.UpdateItemRequest
-	(*UpdateItemResponse)(nil),       // 11: cart.UpdateItemResponse
-	(*DeleteItemRequest)(nil),        // 12: cart.DeleteItemRequest
-	(*DeleteItemResponse)(nil),       // 13: cart.DeleteItemResponse
-	(*r1nb0_product_v1.Product)(nil), // 14: product.Product
+	(*Item)(nil),               // 0: cart.Item
+	(*Cart)(nil),               // 1: cart.Cart
+	(*GetAllRequest)(nil),      // 2: cart.GetAllRequest
+	(*GetByIDRequest)(nil),     // 3: cart.GetByIDRequest
+	(*CreateRequest)(nil),      // 4: cart.CreateRequest
+	(*CreateResponse)(nil),     // 5: cart.CreateResponse
+	(*DeleteRequest)(nil),      // 6: cart.DeleteRequest
+	(*DeleteResponse)(nil),     // 7: cart.DeleteResponse
+	(*AddItemRequest)(nil),     // 8: cart.AddItemRequest
+	(*AddItemResponse)(nil),    // 9: cart.AddItemResponse
+	(*UpdateItemRequest)(nil),  // 10: cart.UpdateItemRequest
+	(*UpdateItemResponse)(nil), // 11: cart.UpdateItemResponse
+	(*DeleteItemRequest)(nil),  // 12: cart.DeleteItemRequest
+	(*DeleteItemResponse)(nil), // 13: cart.DeleteItemResponse
+	(*product.Product)(nil),    // 14: product.Product
 }
 var file_cart_cart_proto_depIdxs = []int32{
 	14, // 0: cart.Item.product:type_name -> product.Product

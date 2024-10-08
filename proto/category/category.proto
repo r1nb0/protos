@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package category;
 
-option go_package = "r1nb0.category.v1;categoryv1";
+option go_package = "github.com/r1nb0/protos/proto/category;categoryv1";
 
 service CategoryService {
   rpc Create (CreateRequest) returns (CreateResponse);
