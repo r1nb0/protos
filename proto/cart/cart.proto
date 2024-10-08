@@ -45,11 +45,11 @@ message CreateResponse {
 }
 
 message DeleteRequest {
-  bool success = 1;
+  string id = 1;
 }
 
 message DeleteResponse {
-  string id = 1;
+  bool success = 1;
 }
 
 message AddItemRequest {
