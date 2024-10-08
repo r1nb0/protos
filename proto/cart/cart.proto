@@ -41,7 +41,7 @@ message CreateRequest {
 }
 
 message CreateResponse {
-  string od = 1;
+  string id = 1;
 }
 
 message DeleteRequest {
