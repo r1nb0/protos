@@ -2,7 +2,7 @@ syntax="proto3";
 
 package cart;
 
-option go_package = "github.com/r1nb0/protos/proto/cart;cartv1";
+option go_package = "github.com/r1nb0/protos/gen/go/cart;cartv1";
 
 import "product/product.proto";
 
