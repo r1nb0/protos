@@ -45,7 +45,7 @@ message CreateResponse {
 }
 
 message DeleteRequest {
-  string id = 1;
+  bool success = 1;
 }
 
 message DeleteResponse {
