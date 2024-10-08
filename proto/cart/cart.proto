@@ -1,0 +1,80 @@
+syntax="proto3";
+
+package cart;
+
+option go_package = "r1nb0.cart.v1;cartv1";
+
+import "product/product.proto";
+
+service CartService {
+  rpc Create (CreateRequest) returns (CreateResponse);
+  rpc Delete (DeleteRequest) returns (DeleteResponse);
+  rpc GetAll (GetAllRequest) returns (stream Cart);
+  rpc GetByID (GetByIDRequest) returns (Cart);
+  rpc AddItem (AddItemRequest) returns (AddItemResponse);
+  rpc UpdateItem (UpdateItemRequest) returns (UpdateItemResponse);
+  rpc DeleteItem (DeleteItemRequest) returns (DeleteItemResponse);
+}
+
+message Item {
+  product.Product product = 1;
+  int64 count = 2;
+}
+
+message Cart {
+  string id = 1;
+  int64 user_id = 2;
+  repeated Item items = 3;
+  float total_price = 4;
+}
+
+message GetAllRequest { }
+
+message GetByIDRequest {
+  int64 id = 1;
+}
+
+message CreateRequest {
+  int64 user_id = 1;
+  repeated Item items = 2;
+  float total_price = 3;
+}
+
+message CreateResponse {
+  string od = 1;
+}
+
+message DeleteRequest {
+  string id = 1;
+}
+
+message DeleteResponse {
+  string id = 1;
+}
+
+message AddItemRequest {
+  string basket_id = 1;
+  Item item = 2;
+}
+
+message AddItemResponse {
+  bool success = 1;
+}
+
+message UpdateItemRequest {
+  string basket_id = 1;
+  Item item = 2;
+}
+
+message UpdateItemResponse {
+  bool success = 1;
+}
+
+message DeleteItemRequest {
+  string basket_id = 1;
+  int64 item_id = 2;
+}
+
+message DeleteItemResponse {
+  bool success = 1;
+}
