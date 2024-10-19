@@ -47,7 +47,7 @@ message CreateRequest {
 }
 
 message DeleteRequest {
-  string cart_id = 1;
+  string order_id = 1;
 }
 
 message DeleteResponse {
@@ -55,5 +55,5 @@ message DeleteResponse {
 }
 
 message CreateResponse {
-  string cart_id = 1;
+  string order_id = 1;
 }
