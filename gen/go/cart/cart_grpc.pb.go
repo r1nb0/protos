@@ -26,6 +26,7 @@ const (
 	CartService_AddItem_FullMethodName    = "/cart.CartService/AddItem"
 	CartService_UpdateItem_FullMethodName = "/cart.CartService/UpdateItem"
 	CartService_DeleteItem_FullMethodName = "/cart.CartService/DeleteItem"
+	CartService_ClearItems_FullMethodName = "/cart.CartService/ClearItems"
 )
 
 // CartServiceClient is the client API for CartService service.
@@ -39,6 +40,7 @@ type CartServiceClient interface {
 	AddItem(ctx context.Context, in *AddItemRequest, opts ...grpc.CallOption) (*AddItemResponse, error)
 	UpdateItem(ctx context.Context, in *UpdateItemRequest, opts ...grpc.CallOption) (*UpdateItemResponse, error)
 	DeleteItem(ctx context.Context, in *DeleteItemRequest, opts ...grpc.CallOption) (*DeleteItemResponse, error)
+	ClearItems(ctx context.Context, in *ClearItemsRequest, opts ...grpc.CallOption) (*ClearItemsResponse, error)
 }
 
 type cartServiceClient struct {
@@ -128,6 +130,16 @@ func (c *cartServiceClient) DeleteItem(ctx context.Context, in *DeleteItemReques
 	return out, nil
 }
 
+func (c *cartServiceClient) ClearItems(ctx context.Context, in *ClearItemsRequest, opts ...grpc.CallOption) (*ClearItemsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ClearItemsResponse)
+	err := c.cc.Invoke(ctx, CartService_ClearItems_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CartServiceServer is the server API for CartService service.
 // All implementations must embed UnimplementedCartServiceServer
 // for forward compatibility.
@@ -139,6 +151,7 @@ type CartServiceServer interface {
 	AddItem(context.Context, *AddItemRequest) (*AddItemResponse, error)
 	UpdateItem(context.Context, *UpdateItemRequest) (*UpdateItemResponse, error)
 	DeleteItem(context.Context, *DeleteItemRequest) (*DeleteItemResponse, error)
+	ClearItems(context.Context, *ClearItemsRequest) (*ClearItemsResponse, error)
 	mustEmbedUnimplementedCartServiceServer()
 }
 
@@ -169,6 +182,9 @@ func (UnimplementedCartServiceServer) UpdateItem(context.Context, *UpdateItemReq
 }
 func (UnimplementedCartServiceServer) DeleteItem(context.Context, *DeleteItemRequest) (*DeleteItemResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteItem not implemented")
+}
+func (UnimplementedCartServiceServer) ClearItems(context.Context, *ClearItemsRequest) (*ClearItemsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClearItems not implemented")
 }
 func (UnimplementedCartServiceServer) mustEmbedUnimplementedCartServiceServer() {}
 func (UnimplementedCartServiceServer) testEmbeddedByValue()                     {}
@@ -310,6 +326,24 @@ func _CartService_DeleteItem_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CartService_ClearItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClearItemsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CartServiceServer).ClearItems(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CartService_ClearItems_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CartServiceServer).ClearItems(ctx, req.(*ClearItemsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CartService_ServiceDesc is the grpc.ServiceDesc for CartService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -340,6 +374,10 @@ var CartService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteItem",
 			Handler:    _CartService_DeleteItem_Handler,
+		},
+		{
+			MethodName: "ClearItems",
+			Handler:    _CartService_ClearItems_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
