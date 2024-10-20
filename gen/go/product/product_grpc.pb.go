@@ -26,6 +26,7 @@ const (
 	ProductService_GetByID_FullMethodName       = "/product.ProductService/GetByID"
 	ProductService_GetByCategory_FullMethodName = "/product.ProductService/GetByCategory"
 	ProductService_GetDailyRecs_FullMethodName  = "/product.ProductService/GetDailyRecs"
+	ProductService_GetByName_FullMethodName     = "/product.ProductService/GetByName"
 )
 
 // ProductServiceClient is the client API for ProductService service.
@@ -39,6 +40,7 @@ type ProductServiceClient interface {
 	GetByID(ctx context.Context, in *GetByIDRequest, opts ...grpc.CallOption) (*Product, error)
 	GetByCategory(ctx context.Context, in *GetByCategoryRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error)
 	GetDailyRecs(ctx context.Context, in *GetDailyRecsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Product], error)
+	GetByName(ctx context.Context, in *GetByNameRequest, opts ...grpc.CallOption) (*GetByNameResponse, error)
 }
 
 type productServiceClient struct {
@@ -146,6 +148,16 @@ func (c *productServiceClient) GetDailyRecs(ctx context.Context, in *GetDailyRec
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type ProductService_GetDailyRecsClient = grpc.ServerStreamingClient[Product]
 
+func (c *productServiceClient) GetByName(ctx context.Context, in *GetByNameRequest, opts ...grpc.CallOption) (*GetByNameResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetByNameResponse)
+	err := c.cc.Invoke(ctx, ProductService_GetByName_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProductServiceServer is the server API for ProductService service.
 // All implementations must embed UnimplementedProductServiceServer
 // for forward compatibility.
@@ -157,6 +169,7 @@ type ProductServiceServer interface {
 	GetByID(context.Context, *GetByIDRequest) (*Product, error)
 	GetByCategory(*GetByCategoryRequest, grpc.ServerStreamingServer[Product]) error
 	GetDailyRecs(*GetDailyRecsRequest, grpc.ServerStreamingServer[Product]) error
+	GetByName(context.Context, *GetByNameRequest) (*GetByNameResponse, error)
 	mustEmbedUnimplementedProductServiceServer()
 }
 
@@ -187,6 +200,9 @@ func (UnimplementedProductServiceServer) GetByCategory(*GetByCategoryRequest, gr
 }
 func (UnimplementedProductServiceServer) GetDailyRecs(*GetDailyRecsRequest, grpc.ServerStreamingServer[Product]) error {
 	return status.Errorf(codes.Unimplemented, "method GetDailyRecs not implemented")
+}
+func (UnimplementedProductServiceServer) GetByName(context.Context, *GetByNameRequest) (*GetByNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetByName not implemented")
 }
 func (UnimplementedProductServiceServer) mustEmbedUnimplementedProductServiceServer() {}
 func (UnimplementedProductServiceServer) testEmbeddedByValue()                        {}
@@ -314,6 +330,24 @@ func _ProductService_GetDailyRecs_Handler(srv interface{}, stream grpc.ServerStr
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type ProductService_GetDailyRecsServer = grpc.ServerStreamingServer[Product]
 
+func _ProductService_GetByName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).GetByName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProductService_GetByName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).GetByName(ctx, req.(*GetByNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProductService_ServiceDesc is the grpc.ServiceDesc for ProductService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -336,6 +370,10 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetByID",
 			Handler:    _ProductService_GetByID_Handler,
+		},
+		{
+			MethodName: "GetByName",
+			Handler:    _ProductService_GetByName_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

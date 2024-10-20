@@ -12,6 +12,7 @@ service ProductService {
   rpc GetByID (GetByIDRequest) returns (Product);
   rpc GetByCategory (GetByCategoryRequest) returns (stream Product);
   rpc GetDailyRecs (GetDailyRecsRequest) returns (stream Product);
+  rpc GetByName (GetByNameRequest) returns (GetByNameResponse);
 }
 
 message Product {
@@ -60,3 +61,11 @@ message GetByCategoryRequest {
 }
 
 message GetDailyRecsRequest {}
+
+message GetByNameRequest {
+  string name = 1;
+}
+
+message GetByNameResponse {
+  repeated Product product = 1;
+}
