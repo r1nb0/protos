@@ -67,5 +67,5 @@ message GetByNameRequest {
 }
 
 message GetByNameResponse {
-  repeated Product product = 1;
+  repeated Product products = 1;
 }
